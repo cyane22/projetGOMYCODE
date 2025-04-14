@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Mémoire</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+ <h1>Jeu De Memoire</h1>
+    <!-- Conteneur pour le score, le temps et les déplacements -->
+    <div id="infos">
+        <div id="score" class="info">Score: 0</div>
+        <div id="temps" class="info">Temps: 0 secondes</div>
+        <div id="deplacements" class="info">Déplacements: 0</div>
+    </div>
+
+    <!-- Conteneur de la grille de jeu -->
+    <div id="grille"></div>
+
+    <!-- Message de fin de jeu -->
+    <div id="fin">
+        <h2>🎉 Félicitations, vous avez gagné ! 🎉</h2>
+        <button onclick="recommencer()">Rejouer</button>
+    </div>
+
+   <script src="script.js"></script>
+</body>
+</html>
