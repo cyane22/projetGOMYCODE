@@ -1,0 +1,175 @@
+/* Exemple d'animation au chargement des cartes */
+@keyframes apparaitre {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Définir une animation pour le titre lumineux */
+/* Animation de lumière dynamique */
+@keyframes brillance {
+    0% {
+      text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 20px #ffd700;
+    }
+    100% {
+      text-shadow: 0 0 10px #ff8c00, 0 0 25px #ff8c00, 0 0 40px #ff8c00;
+    }
+  }
+  
+
+
+@media (max-width: 768px) {
+    body {
+        font-size: 0.8rem; /* Réduit la taille pour petits écrans */
+    }
+}
+
+ /* === Style général du corps de la page === */
+body {
+    font-family: Arial, sans-serif;         /* Police d'écriture de la page */
+    display: flex;                          /* Utilise Flexbox pour centrer les éléments */
+    flex-direction: column;                 /* Les éléments sont empilés verticalement */
+    align-items: center;                    /* Centre les éléments horizontalement */
+    margin-top: 50px;                       /* Ajoute de l'espace en haut de la page */
+    /* Ajout d'un arrière-plan */
+    background: linear-gradient(135deg, #f9a825, #3949ab); /* Dégradé du jaune au bleu */
+    background-size: cover; /* Assure que l'image/dégradé remplit tout l'écran */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    margin: 0; /* Supprime les marges par défaut */
+    font-size: 1rem; /* Base */
+    
+}
+
+/* Style du titre avec effet lumineux */
+/* Style de base pour l'en-tête */
+h1 {
+    font-size: 2rem;                          /* la taille du titre */
+    color: rgb(235, 229, 226);           
+    text-align: center;
+    margin-bottom: 20px;
+    /* Ajout d'une animation au chargement */
+    animation: brillance 2s infinite alternate;
+  }
+
+
+/* === Conteneur des informations en haut de la page === */
+#infos {
+    display: flex;                          /* Met les infos (score, temps, déplacements) sur une même ligne */
+    gap: 20px;                              /* Espace entre chaque info */
+    margin-bottom: 20px;                    /* Espace en dessous du bloc */
+}
+
+
+/* === Style commun appliqué à chaque bloc d'information individuel === */
+.info {
+    font-size: 18px;     /* Taille de police plus grande */
+    font-weight: bold;   /* Texte en gras */
+    color: #444;         /* Couleur du texte gris foncé */
+}
+
+/* === Grille des cartes (4 colonnes par ligne) === */
+#grille {
+    display: grid;                          /* Utilise CSS Grid pour aligner les cartes */
+    grid-template-columns: repeat(4, 100px);/* 4 colonnes de 100px de large */
+    grid-gap: 10px;                         /* Espace entre les cartes */
+    justify-content: center;                /* Centre la grille horizontalement */
+        
+}
+
+/* === Style de base pour chaque carte === */
+.carte {
+    width: 100px;                           /* Largeur de la carte */
+    height: 100px;                          /* Hauteur de la carte */
+    background-color: #ccc;                 /* Couleur de fond gris clair (état caché) */
+    display: flex;                          /* Centre le contenu (image) dans la carte */
+    align-items: center;                    /* Centre verticalement */
+    justify-content: center;                /* Centre horizontalement */
+    cursor: pointer;                        /* Curseur "main" au survol */
+    position: relative;                     /* Nécessaire si on veut positionner des éléments enfants */
+    /*Ajoutez des transitions aux cartes pour rendre le retournement plus fluide */
+    transform-style: preserve-3d;
+    transition: transform 0.6s; 
+    animation: apparaitre 0.5s ease-in-out;    /* Applique l'animation */
+}
+
+/* === Image dans une carte (initialement cachée) === */
+.carte img {
+    width: 80%;                             /* Image prend 80% de la largeur de la carte */
+    height: 80%;                            /* Image prend 80% de la hauteur */
+    display: none;                          /* L'image est cachée par défaut */
+}
+
+/*Ajoutez un effet au survol des cartes pour donner un feedback visuel au joueur  */
+.carte:hover {
+    background-color: #bbb; /* Change la couleur au survol */
+    transition: background-color 0.3s ease; /* Animation fluide */
+    
+}
+
+ .carte.découverte { 
+       transform: rotateY(180deg);                    /* Animation de retournement  */ 
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);          /*  Effet de glow doré */
+     transition: transform 0.6s ease, box-shadow 0.3s ease;    
+}
+
+
+ /* === Classe pour les cartes cachées === */
+.cachée {
+    background-color: #ccc;                 /* Fond gris quand la carte est cachée */
+}
+
+/* === Classe pour les cartes découvertes === */
+/* Personnalisez les couleurs des cartes découvertes pour les rendre plus distinctives */
+.découverte {
+     /* background-color: #fff;                 Fond blanc quand la carte est retournée */
+     background-color: #ffd700;             /* Jaune doré */
+     border: 2px solid #444;               /* Ajoutez une bordure */
+     transform: rotateY(180deg);            /* Effet de rotation */
+     /*Glow sur une carte découverte  */
+     box-shadow: 0 0 10px 5px rgba(255, 215, 0, 0.8); /* Effet de glow doré */
+     transition: transform 0.6s ease, box-shadow 0.3s ease; /* Ajoute une transition fluide */
+}
+
+/* === Message de fin === */
+#fin {
+    display: none;                          /* Caché au début, visible à la fin du jeu */
+    margin-top: 20px;                       /* Marge au-dessus du message */
+    text-align: center;                     /* Centre le texte */
+    position: fixed;               /* Permet de placer le message au centre de l'écran */
+    top: 50%;                      /* Position verticale centrée */
+    left: 50%;                     /* Position horizontale centrée */
+    transform: translate(-50%, -50%); /* Ajustement pour un centrage parfait */
+    background-color: rgba(0, 0, 0, 0.8); /* Fond légèrement transparent pour effet */
+    color: white;                  /* Couleur du texte en blanc */
+    padding: 20px;                 /* Espace intérieur du message */
+    border-radius: 10px;           /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Ombre pour un effet visuel */
+    z-index: 1000;                 /* Place le message au-dessus des autres éléments */ 
+}
+
+
+/* Style du bouton "Rejouer" pour qu'il s'harmonise avec le message */
+#fin button {
+    margin-top: 20px;
+    padding: 10px 20px;                         /* Espace intérieur du bouton */
+    font-size: 16px;                            /* Taille du texte dans le bouton */
+    background-color: #ffd700;                /* Jaune doré */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;                            /* Curseur "main" */
+    color: black;
+    font-weight: bold;
+}
+
+#fin button:hover {
+    background-color: #e6be00; /* Couleur légèrement plus foncée au survol */
+}
+
+
+
+    

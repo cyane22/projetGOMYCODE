@@ -22,6 +22,37 @@ const images = [
 // Mélange aléatoire des images
 let cartes = [...images].sort(() => 0.5 - Math.random());
 
+// retourne toutes les cartes brièvement au chargement de la page, puis les cache après quelques secondes
+document.addEventListener("DOMContentLoaded", () => {
+    revealCardsTemporary(); // Révèle les cartes au chargement de la page
+});
+
+function revealCardsTemporary() {
+    const cards = document.querySelectorAll('.carte');
+    cards.forEach(card => {
+        // Révèle la carte
+        card.classList.remove('cachée');
+        card.classList.add('découverte'); // Ajoutez une classe "découverte" pour styliser les cartes visibles
+
+        const img = document.createElement('img');
+        img.src = card.dataset.image; // Récupère l'image correspondante
+        img.style.display = 'block'; // Assure que l'image est visible
+        img.style.width = '100px'; 
+        img.style.height = '100px'; 
+        card.appendChild(img);
+    });
+
+    // Cache les cartes après 3 secondes
+    setTimeout(() => {
+        cards.forEach(card => {
+            card.classList.remove('découverte');
+            card.classList.add('cachée'); // Cache à nouveau les cartes
+            card.innerHTML = ''; // Supprime l'image pour éviter les duplications
+        });
+    }, 2000); // Changez 2000 (ms) pour ajuster la durée si nécessaire
+}
+
+
 // === Fonction pour démarrer le chronomètre ===
 function startTimer() {
     intervalle = setInterval(() => {
