@@ -3,7 +3,7 @@
 let score = 0;               // Score du joueur (nombre de paires trouvées)
 let deplacements = 0;        // Nombre de déplacements effectués
 let temps = 0;               // Temps écoulé en secondes
-let premierClic = false;     // Indicateur pour le premier clic
+let premierClic = false;     // Indicateur pour le premier clic (booléen pour démarrer le temps seulement au premier clic)
 let premierIndex = null;     // Index de la première carte cliquée
 let intervalle;              // Intervalle pour le chronomètre
 
@@ -74,6 +74,7 @@ cartes.forEach((image, index) => {
     div.id = `carte-${index}`;            // ID unique pour chaque carte
     div.dataset.image = image;            // Stocke l'image de la carte dans un attribut personnalisé
 
+    // Ajoutez des écouteurs d’événements aux cartes pour capturer les clics des utilisateurs
     // Gestion du clic sur la carte
     div.addEventListener('click', () => {
         // Ignore le clic si la carte est déjà découverte
@@ -118,6 +119,8 @@ cartes.forEach((image, index) => {
                 if (score === 8) {
                     clearInterval(intervalle); // Arrête le chronomètre
                     document.getElementById('fin').style.display = 'block'; // Affiche le message de fin
+                    afficherCommentaires(); // Affiche la note et commentaire du joueur
+
                 }
             } else {
                 // Si les cartes ne sont pas identiques, les cache après 1 seconde
@@ -138,3 +141,34 @@ cartes.forEach((image, index) => {
     // Ajoute la carte à la grille
     document.getElementById('grille').appendChild(div);
 });
+
+// === Affiche un commentaire selon la performance du joueur ===
+function afficherCommentaires() {
+    let commentaire = '';
+    let nombreEtoiles = 0;
+
+    // Évaluation basée sur le nombre de déplacements
+    if (deplacements <= 16) {
+        commentaire = "🌟 Excellent(e)🎉, vous êtes un(e) maître(sse) du jeu de mémoire ! 🧠✨ !";
+        nombreEtoiles = 3;
+    } else if (deplacements <= 24) {
+        commentaire = "👍 Très bien joué ! Tu as une bonne mémoire !";
+        nombreEtoiles = 2;
+    } else {
+        commentaire = "🙂 Bien joué ! Essaie de faire moins de coups la prochaine fois.";
+        nombreEtoiles = 1;
+    }
+
+   // Insère le texte dans la div prévue
+   const commentaireDiv = document.getElementById('commentaire-performance');
+   commentaireDiv.innerHTML = `<h2>${commentaire}</h2>`;
+
+   // Affiche les étoiles de performance
+   let etoiles = '';
+   for (let i = 0; i < nombreEtoiles; i++) {
+       etoiles += '⭐';
+   }
+   const etoilesDiv = document.createElement('p');
+   etoilesDiv.innerText = etoiles;
+   commentaireDiv.appendChild(etoilesDiv);
+}
